@@ -1,0 +1,40 @@
+name: RSVP
+description: Submit attendance intent for the wedding invitation
+title: "[rsvp] {{name}}"
+labels: [rsvp]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: 홍길동
+    validations:
+      required: true
+  - type: dropdown
+    id: side
+    attributes:
+      label: Side
+      options:
+        - 신랑측
+        - 신부측
+    validations:
+      required: true
+  - type: dropdown
+    id: attending
+    attributes:
+      label: Attendance
+      options:
+        - 참석
+        - 불참
+    validations:
+      required: true
+  - type: input
+    id: companions
+    attributes:
+      label: Number of companions
+      placeholder: "0"
+  - type: textarea
+    id: note
+    attributes:
+      label: Note
+      placeholder: 전달할 메모를 적어주세요

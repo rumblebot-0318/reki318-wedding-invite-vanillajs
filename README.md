@@ -5,12 +5,21 @@
 ## 포함 내용
 
 - 모바일 퍼스트 싱글 페이지
-- 2026-11-21 결혼식 일정 반영
+- `mock-data.json` 기반 데이터 렌더링
 - 재사용 가능한 JavaScript 달력 렌더링
 - 카운트다운 표시
-- 카카오맵 SDK 기반 지도 표시
+- 이미지형 카카오 지도 표시
 - 주소 복사 / 외부 지도 링크
 - 워터마크 및 copyright 섹션 제거
+- GitHub Issues + Actions 기반 방명록 / RSVP 동기화 구조
+
+## GitHub Issues + Actions 흐름
+
+- 사용자가 페이지에서 방명록/RSVP 폼 제출
+- GitHub Issue 생성 페이지로 이동
+- 저장소의 issue template + label 사용
+- GitHub Actions가 issue 내용을 읽어 `data/guestbook.json`, `data/rsvp.json`에 반영
+- GitHub Pages가 해당 JSON을 다시 읽어 화면에 표시
 
 ## 실행 방법
 

@@ -11,8 +11,22 @@ function escapeHtml(value) {
 }
 
 async function loadData() {
-  const response = await fetch('mock-data.json');
-  inviteData = await response.json();
+  const [dataResponse, guestbookResponse, rsvpResponse] = await Promise.all([
+    fetch('mock-data.json'),
+    fetch('data/guestbook.json').catch(() => null),
+    fetch('data/rsvp.json').catch(() => null),
+  ]);
+
+  inviteData = await dataResponse.json();
+
+  if (guestbookResponse && guestbookResponse.ok) {
+    inviteData.guestbook.entries = await guestbookResponse.json();
+  }
+
+  if (rsvpResponse && rsvpResponse.ok) {
+    inviteData.attendance.responses = await rsvpResponse.json();
+  }
+
   weddingDate = new Date(inviteData.wedding.date);
 }
 
@@ -271,34 +285,36 @@ function downloadJson(filename, data) {
   URL.revokeObjectURL(url);
 }
 
+function buildIssueUrl(title, body, labels) {
+  const url = new URL('https://github.com/rumblebot-0318/reki318-wedding-invite-vanillajs/issues/new');
+  url.searchParams.set('title', title);
+  url.searchParams.set('body', body);
+  url.searchParams.set('labels', labels.join(','));
+  return url.toString();
+}
+
 function bindFileBasedForms() {
   const guestbookForm = document.getElementById('guestbookForm');
   const attendanceForm = document.getElementById('attendanceForm');
 
   guestbookForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const payload = {
-      type: 'guestbook',
-      createdAt: new Date().toISOString(),
-      name: document.getElementById('guestbookName').value,
-      message: document.getElementById('guestbookMessage').value,
-    };
-    downloadJson(inviteData.guestbook.exportFileName, payload);
+    const name = document.getElementById('guestbookName').value;
+    const message = document.getElementById('guestbookMessage').value;
+    const body = `### Name\n${name}\n\n### Message\n${message}`;
+    window.open(buildIssueUrl(`[guestbook] ${name}`, body, ['guestbook']), '_blank', 'noopener,noreferrer');
     guestbookForm.reset();
   });
 
   attendanceForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const payload = {
-      type: 'attendance',
-      createdAt: new Date().toISOString(),
-      name: document.getElementById('attendanceName').value,
-      side: document.getElementById('attendanceSide').value,
-      attending: document.getElementById('attendanceStatus').value === 'true',
-      companions: Number(document.getElementById('attendanceCompanions').value || 0),
-      note: document.getElementById('attendanceNote').value,
-    };
-    downloadJson(inviteData.attendance.exportFileName, payload);
+    const name = document.getElementById('attendanceName').value;
+    const side = document.getElementById('attendanceSide').value;
+    const status = document.getElementById('attendanceStatus').value === 'true' ? '참석' : '불참';
+    const companions = document.getElementById('attendanceCompanions').value || '0';
+    const note = document.getElementById('attendanceNote').value;
+    const body = `### Name\n${name}\n\n### Side\n${side}\n\n### Attendance\n${status}\n\n### Number of companions\n${companions}\n\n### Note\n${note}`;
+    window.open(buildIssueUrl(`[rsvp] ${name}`, body, ['rsvp']), '_blank', 'noopener,noreferrer');
     attendanceForm.reset();
   });
 }

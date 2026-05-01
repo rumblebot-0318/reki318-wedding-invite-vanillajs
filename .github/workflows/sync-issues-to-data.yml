@@ -1,0 +1,99 @@
+name: Sync issue submissions to data files
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  sync:
+    if: contains(join(github.event.issue.labels.*.name, ','), 'guestbook') || contains(join(github.event.issue.labels.*.name, ','), 'rsvp')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync issue body into JSON files
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const issue = context.payload.issue;
+            const labels = issue.labels.map(label => label.name);
+            const body = issue.body || '';
+
+            function parseSections(text) {
+              const sections = {};
+              let current = null;
+              for (const line of text.split(/\r?\n/)) {
+                const heading = line.match(/^###\s+(.*)$/);
+                if (heading) {
+                  current = heading[1].trim();
+                  sections[current] = '';
+                  continue;
+                }
+                if (current) {
+                  sections[current] += (sections[current] ? '\n' : '') + line;
+                }
+              }
+              Object.keys(sections).forEach((key) => {
+                sections[key] = sections[key].trim();
+              });
+              return sections;
+            }
+
+            const sections = parseSections(body);
+
+            function readJson(path) {
+              return JSON.parse(fs.readFileSync(path, 'utf8'));
+            }
+
+            function writeJson(path, data) {
+              fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
+            }
+
+            if (labels.includes('guestbook')) {
+              const dataPath = 'data/guestbook.json';
+              const items = readJson(dataPath);
+              const next = {
+                issueNumber: issue.number,
+                createdAt: issue.created_at,
+                updatedAt: issue.updated_at,
+                name: sections['Name'] || issue.user.login,
+                message: sections['Message'] || ''
+              };
+              const filtered = items.filter(item => item.issueNumber !== issue.number);
+              filtered.push(next);
+              writeJson(dataPath, filtered);
+            }
+
+            if (labels.includes('rsvp')) {
+              const dataPath = 'data/rsvp.json';
+              const items = readJson(dataPath);
+              const next = {
+                issueNumber: issue.number,
+                createdAt: issue.created_at,
+                updatedAt: issue.updated_at,
+                name: sections['Name'] || issue.user.login,
+                side: sections['Side'] || '',
+                attending: (sections['Attendance'] || '').includes('참석'),
+                companions: Number(sections['Number of companions'] || '0') || 0,
+                note: sections['Note'] || ''
+              };
+              const filtered = items.filter(item => item.issueNumber !== issue.number);
+              filtered.push(next);
+              writeJson(dataPath, filtered);
+            }
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/guestbook.json data/rsvp.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: sync issue submissions to data files"
+          git push
