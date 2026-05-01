@@ -34,6 +34,7 @@ function renderHero() {
   heroPhoto.src = hero.image;
   heroPhoto.alt = hero.alt;
   document.getElementById('heroDateText').textContent = wedding.dateText;
+  document.getElementById('heroTimeText').textContent = wedding.timeText;
   document.getElementById('heroVenue').textContent = wedding.venue;
 }
 
@@ -142,7 +143,7 @@ function renderLocation() {
   const { wedding, map } = inviteData;
   document.getElementById('locationTitle').textContent = wedding.venue;
   document.getElementById('locationAddress').textContent = wedding.address;
-  document.getElementById('daySectionTitle').textContent = wedding.dateText;
+  document.getElementById('daySectionTitle').textContent = `${wedding.dateText} ${wedding.timeText}`;
   document.getElementById('map').innerHTML = `
     <div class="kakao-map-card">
       <div class="kakao-map-image-wrap">
@@ -226,6 +227,82 @@ function renderAccounts() {
     .join('');
 }
 
+function renderGuestbook() {
+  const guestbook = inviteData.guestbook;
+  const list = document.getElementById('guestbookList');
+
+  list.innerHTML = guestbook.entries
+    .map(
+      (entry) => `
+        <div class="info-card">
+          <span class="info-role">${escapeHtml(entry.name)}</span>
+          <p>${escapeHtml(entry.message)}</p>
+        </div>
+      `,
+    )
+    .join('');
+}
+
+function renderAttendance() {
+  const attendance = inviteData.attendance;
+  const list = document.getElementById('attendanceList');
+
+  list.innerHTML = attendance.responses
+    .map(
+      (entry) => `
+        <div class="info-card">
+          <span class="info-role">${escapeHtml(entry.name)} · ${escapeHtml(entry.side)}</span>
+          <strong>${entry.attending ? '참석' : '불참'}</strong>
+          <p>동반 인원: ${escapeHtml(entry.companions)}</p>
+          <p>${escapeHtml(entry.note || '')}</p>
+        </div>
+      `,
+    )
+    .join('');
+}
+
+function downloadJson(filename, data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function bindFileBasedForms() {
+  const guestbookForm = document.getElementById('guestbookForm');
+  const attendanceForm = document.getElementById('attendanceForm');
+
+  guestbookForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const payload = {
+      type: 'guestbook',
+      createdAt: new Date().toISOString(),
+      name: document.getElementById('guestbookName').value,
+      message: document.getElementById('guestbookMessage').value,
+    };
+    downloadJson(inviteData.guestbook.exportFileName, payload);
+    guestbookForm.reset();
+  });
+
+  attendanceForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const payload = {
+      type: 'attendance',
+      createdAt: new Date().toISOString(),
+      name: document.getElementById('attendanceName').value,
+      side: document.getElementById('attendanceSide').value,
+      attending: document.getElementById('attendanceStatus').value === 'true',
+      companions: Number(document.getElementById('attendanceCompanions').value || 0),
+      note: document.getElementById('attendanceNote').value,
+    };
+    downloadJson(inviteData.attendance.exportFileName, payload);
+    attendanceForm.reset();
+  });
+}
+
 function bindGallery() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
@@ -301,11 +378,14 @@ async function init() {
   renderLocation();
   renderCalendar(document.getElementById('calendar'), weddingDate);
   renderGallery();
+  renderGuestbook();
+  renderAttendance();
   renderContacts();
   renderAccounts();
   updateCountdown();
   bindCopyAddress();
   bindGallery();
+  bindFileBasedForms();
   bindRevealAnimation();
   setInterval(updateCountdown, 1000);
 }

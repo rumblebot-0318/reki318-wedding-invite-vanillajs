@@ -25,6 +25,7 @@
 
         <div class="divider-line"></div>
         <p class="hero-meta" id="heroDateText"></p>
+        <p class="hero-meta" id="heroTimeText"></p>
         <p class="hero-meta venue-name" id="heroVenue"></p>
         <div class="divider-line bottom"></div>
       </section>
@@ -86,6 +87,45 @@
         </div>
 
         <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+
+      <section class="section-block guestbook-section reveal">
+        <div class="section-heading">
+          <p class="section-en">Guestbook</p>
+          <p class="section-ko">축하 메시지</p>
+        </div>
+
+        <div class="info-grid one-up" id="guestbookList"></div>
+
+        <form id="guestbookForm" class="form-card">
+          <input id="guestbookName" class="form-input" type="text" placeholder="이름" required />
+          <textarea id="guestbookMessage" class="form-input form-textarea" placeholder="축하 메시지를 남겨주세요" required></textarea>
+          <button type="submit" class="form-button">메시지 JSON 다운로드</button>
+        </form>
+      </section>
+
+      <section class="section-block attendance-section reveal">
+        <div class="section-heading">
+          <p class="section-en">RSVP</p>
+          <p class="section-ko">참석 의사 전달</p>
+        </div>
+
+        <div class="info-grid one-up" id="attendanceList"></div>
+
+        <form id="attendanceForm" class="form-card">
+          <input id="attendanceName" class="form-input" type="text" placeholder="이름" required />
+          <select id="attendanceSide" class="form-input">
+            <option value="신랑측">신랑측</option>
+            <option value="신부측">신부측</option>
+          </select>
+          <select id="attendanceStatus" class="form-input">
+            <option value="true">참석</option>
+            <option value="false">불참</option>
+          </select>
+          <input id="attendanceCompanions" class="form-input" type="number" min="0" value="0" placeholder="동반 인원" />
+          <textarea id="attendanceNote" class="form-input form-textarea" placeholder="전달할 메모"></textarea>
+          <button type="submit" class="form-button">참석의사 JSON 다운로드</button>
+        </form>
       </section>
 
       <section class="section-block contact-section reveal">

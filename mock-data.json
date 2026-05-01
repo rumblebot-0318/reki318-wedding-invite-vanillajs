@@ -17,7 +17,8 @@
   "wedding": {
     "title": "민준 ❤️ 서윤 결혼합니다.",
     "date": "2026-11-21T12:00:00+09:00",
-    "dateText": "2026. 11. 21. 토요일 낮 12시 00분",
+    "dateText": "2026. 11. 21. 토요일",
+    "timeText": "낮 12시 00분",
     "venue": "더화이트베일",
     "address": "서울 서초구 서초중앙로 14"
   },
@@ -85,5 +86,30 @@
     "mapLink": "https://map.kakao.com/?urlX=503949.9999999986&urlY=1106709.9999999988&name=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014&map_type=TYPE_MAP&from=roughmap",
     "routeLink": "https://map.kakao.com/?from=roughmap&eName=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014&eX=503949.9999999986&eY=1106709.9999999988",
     "kakaoHome": "https://map.kakao.com"
+  },
+  "guestbook": {
+    "enabled": true,
+    "storageMode": "file-export",
+    "exportFileName": "guestbook-submission.json",
+    "entries": [
+      {
+        "name": "김하늘",
+        "message": "두 분 결혼 진심으로 축하해요!"
+      }
+    ]
+  },
+  "attendance": {
+    "enabled": true,
+    "storageMode": "file-export",
+    "exportFileName": "attendance-response.json",
+    "responses": [
+      {
+        "name": "이도윤",
+        "side": "신랑측",
+        "attending": true,
+        "companions": 1,
+        "note": "맛있는 식사 기대할게요 :)"
+      }
+    ]
   }
 }

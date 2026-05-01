@@ -442,6 +442,40 @@ body.lightbox-open {
   gap: 8px;
 }
 
+.form-card {
+  width: calc(100% - 36px);
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 8px;
+}
+
+.form-input {
+  width: 100%;
+  border: 1px solid #d5cec7;
+  background: #ffffff;
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-button {
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
 .info-grid.two-up {
   grid-template-columns: repeat(2, 1fr);
 }
