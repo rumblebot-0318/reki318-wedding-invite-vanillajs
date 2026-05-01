@@ -6,6 +6,33 @@ const venue = {
   lng: 127.007709,
 };
 
+const galleryImages = [
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 1',
+  },
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 2',
+  },
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 3',
+  },
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 4',
+  },
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 5',
+  },
+  {
+    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
+    alt: '웨딩 갤러리 이미지 6',
+  },
+];
+
 function renderCalendar(target, date) {
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
   const year = date.getFullYear();
@@ -107,7 +134,7 @@ function showStaticMapFallback() {
   const map = document.getElementById('map');
   const note = document.getElementById('mapFallbackNote');
   map.innerHTML = `
-    <a href="https://map.kakao.com/link/search/${encodeURIComponent(venue.address)}" target="_blank" rel="noreferrer" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;position:relative;">
+    <a href="https://map.kakao.com/link/search/${encodeURIComponent(venue.address)}" target="_blank" rel="noreferrer" style="display:block;width:100%;height:260px;text-decoration:none;color:inherit;position:relative;">
       <div style="width:100%;height:100%;background:linear-gradient(180deg,#d7d7d7,#c5c5c5);"></div>
       <div style="position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,0.92);padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 8px 18px rgba(0,0,0,0.12);">
         <strong style="display:block;">${venue.name}</strong>
@@ -119,28 +146,38 @@ function showStaticMapFallback() {
 }
 
 function initMap() {
-  const start = () => {
-    try {
-      const container = document.getElementById('map');
-      const options = {
-        center: new kakao.maps.LatLng(venue.lat, venue.lng),
-        level: 3,
-      };
+  const note = document.getElementById('mapFallbackNote');
 
-      const map = new kakao.maps.Map(container, options);
-      const markerPosition = new kakao.maps.LatLng(venue.lat, venue.lng);
-      const marker = new kakao.maps.Marker({ position: markerPosition });
-      marker.setMap(map);
-    } catch (error) {
-      showStaticMapFallback();
+  try {
+    if (window.daum && window.daum.roughmap && window.daum.roughmap.Lander) {
+      new daum.roughmap.Lander({
+        timestamp: '1777645918954',
+        key: 'n2of23cziuv',
+        mapWidth: '640',
+        mapHeight: '360',
+      }).render();
+      note.hidden = true;
+      return;
     }
-  };
-
-  if (window.kakao && window.kakao.maps) {
-    window.kakao.maps.load(start);
-  } else {
-    showStaticMapFallback();
+  } catch (error) {
+    // fall through
   }
+
+  showStaticMapFallback();
+}
+
+function renderGallery() {
+  const galleryGrid = document.getElementById('galleryGrid');
+
+  galleryGrid.innerHTML = galleryImages
+    .map(
+      (image, index) => `
+        <button class="gallery-item" type="button" data-image="${image.src}" aria-label="갤러리 이미지 ${index + 1} 열기">
+          <img src="${image.src}" alt="${image.alt}" />
+        </button>
+      `,
+    )
+    .join('');
 }
 
 function bindGallery() {
@@ -190,11 +227,36 @@ function bindGallery() {
   });
 }
 
+function bindRevealAnimation() {
+  const revealItems = document.querySelectorAll('.reveal');
+
+  if (!('IntersectionObserver' in window)) {
+    revealItems.forEach((item) => item.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14 },
+  );
+
+  revealItems.forEach((item) => observer.observe(item));
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   renderCalendar(document.getElementById('calendar'), weddingDate);
+  renderGallery();
   updateCountdown();
   bindCopyAddress();
   initMap();
   bindGallery();
+  bindRevealAnimation();
   setInterval(updateCountdown, 1000);
 });

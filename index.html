@@ -13,12 +13,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Dodum&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
-    <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=eb9c9bf9d33f6a3a9d460637b06982f0&autoload=false"></script>
+    <script defer charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
     <script defer src="script.js"></script>
   </head>
   <body>
     <main class="invite-shell">
-      <section class="hero-section section-block">
+      <section class="hero-section section-block reveal">
         <div class="title-overlay">
           <span>송명진</span>
           <span class="title-and">그리고</span>
@@ -39,7 +39,7 @@
         <div class="divider-line bottom"></div>
       </section>
 
-      <section class="section-block intro-section">
+      <section class="section-block intro-section reveal">
         <div class="section-heading">
           <p class="section-en">Invitation</p>
           <p class="section-ko">소중한 분들을 초대합니다</p>
@@ -68,7 +68,7 @@
         </div>
       </section>
 
-      <section class="section-block day-section">
+      <section class="section-block day-section reveal">
         <div class="section-heading">
           <p class="section-en">Wedding Day</p>
           <p class="section-ko">2026. 11. 21. 토요일 낮 12시 00분</p>
@@ -88,7 +88,7 @@
         <p class="dday-copy" id="ddayCopy"></p>
       </section>
 
-      <section class="section-block location-section">
+      <section class="section-block location-section reveal">
         <div class="section-heading">
           <p class="section-en">Location</p>
           <p class="section-ko">오시는 길</p>
@@ -97,7 +97,9 @@
         <p class="location-title">더화이트베일</p>
         <p class="location-address"><button id="copyAddressBtn" class="copy-inline" type="button" aria-label="주소 복사">⌘</button>서울 서초구 서초중앙로 14</p>
 
-        <div id="map" class="map-box" aria-label="카카오 지도"></div>
+        <div id="map" class="map-box" aria-label="카카오 지도">
+          <div id="daumRoughmapContainer1777645918954" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+        </div>
         <p id="mapFallbackNote" class="map-fallback-note" hidden>지도가 바로 표시되지 않으면 아래 버튼으로 열어보세요.</p>
 
         <div class="map-links two-col">
@@ -106,29 +108,16 @@
         </div>
       </section>
 
-      <section class="section-block gallery-section">
+      <section class="section-block gallery-section reveal">
         <div class="section-heading">
           <p class="section-en">Gallery</p>
           <p class="section-ko">함께할 순간들</p>
         </div>
 
-        <div class="gallery-grid">
-          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 1 열기">
-            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 1" />
-          </button>
-          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 2 열기">
-            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 2" />
-          </button>
-          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 3 열기">
-            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 3" />
-          </button>
-          <div class="gallery-item placeholder" aria-label="갤러리 이미지 4 준비중">
-            <span>Photo 4</span>
-          </div>
-        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
       </section>
 
-      <section class="section-block contact-section">
+      <section class="section-block contact-section reveal">
         <div class="section-heading">
           <p class="section-en">Contact</p>
           <p class="section-ko">연락하기</p>
@@ -148,7 +137,7 @@
         </div>
       </section>
 
-      <section class="section-block account-section">
+      <section class="section-block account-section reveal">
         <div class="section-heading">
           <p class="section-en">Account</p>
           <p class="section-ko">마음 전하실 곳</p>
