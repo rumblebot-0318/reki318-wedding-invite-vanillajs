@@ -471,14 +471,15 @@ body.lightbox-open {
   margin-bottom: 6px;
 }
 
-.action-card strong {
+.action-card-title {
   display: block;
   color: var(--text);
   font-size: 18px;
   font-weight: normal;
 }
 
-.action-card p {
+.action-card-copy {
+  display: block;
   margin-top: 8px;
   color: var(--muted);
   line-height: 1.65;

@@ -367,21 +367,29 @@ function bindModalForms() {
   const attendanceModal = document.getElementById('attendanceModal');
   const guestbookForm = document.getElementById('guestbookForm');
   const attendanceForm = document.getElementById('attendanceForm');
+  const guestbookTrigger = document.getElementById('openGuestbookModal');
+  const attendanceTrigger = document.getElementById('openAttendanceModal');
+
+  const getOpenModalCount = () => document.querySelectorAll('.dialog-modal:not([hidden]), .lightbox:not([hidden])').length;
 
   const openModal = (modal) => {
+    if (!modal) return;
     modal.hidden = false;
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lightbox-open');
   };
 
   const closeModal = (modal) => {
+    if (!modal) return;
     modal.hidden = true;
     modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('lightbox-open');
+    if (getOpenModalCount() <= 1) {
+      document.body.classList.remove('lightbox-open');
+    }
   };
 
-  document.getElementById('openGuestbookModal').addEventListener('click', () => openModal(guestbookModal));
-  document.getElementById('openAttendanceModal').addEventListener('click', () => openModal(attendanceModal));
+  guestbookTrigger?.addEventListener('click', () => openModal(guestbookModal));
+  attendanceTrigger?.addEventListener('click', () => openModal(attendanceModal));
 
   document.querySelectorAll('[data-close-modal]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -391,10 +399,12 @@ function bindModalForms() {
   });
 
   [guestbookModal, attendanceModal].forEach((modal) => {
-    modal.addEventListener('click', (event) => {
+    modal?.addEventListener('click', (event) => {
       if (event.target === modal) closeModal(modal);
     });
   });
+
+  if (!guestbookForm || !attendanceForm) return;
 
   guestbookForm.addEventListener('submit', (event) => {
     event.preventDefault();
