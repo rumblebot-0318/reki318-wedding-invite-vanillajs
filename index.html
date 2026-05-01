@@ -11,51 +11,107 @@
     <meta property="og:image" content="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Dodum&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=982144ba5c72c244d76116943588ea78&autoload=false"></script>
     <script defer src="script.js"></script>
   </head>
   <body>
-    <main class="page-shell">
-      <section class="hero card-section">
-        <p class="eyebrow">Wedding Invitation</p>
-        <h1 class="couple-names">송명진 <span>그리고</span> 한근희</h1>
-        <div class="hero-image-wrap">
+    <main class="invite-shell">
+      <section class="hero-section section-block">
+        <div class="title-overlay">
+          <span>송명진</span>
+          <span class="title-and">그리고</span>
+          <span>한근희</span>
+        </div>
+
+        <div class="hero-photo-wrap">
           <img
             src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc"
             alt="송명진과 한근희의 웨딩 사진"
-            class="hero-image"
+            class="hero-photo"
           />
         </div>
-        <div class="hero-meta">
-          <p>2026. 11. 21. 토요일 낮 12시 00분</p>
-          <p>더화이트베일</p>
-        </div>
+
+        <div class="divider-line"></div>
+        <p class="hero-meta">2026. 11. 21. 토요일 낮 12시 00분</p>
+        <p class="hero-meta venue-name">더화이트베일</p>
+        <div class="divider-line bottom"></div>
       </section>
 
-      <section class="message card-section">
-        <p class="eyebrow">Invitation</p>
-        <h2>소중한 분들을 초대합니다</h2>
+      <section class="section-block intro-section">
+        <div class="section-heading">
+          <p class="section-en">Invitation</p>
+          <p class="section-ko">소중한 분들을 초대합니다</p>
+        </div>
+
         <div class="message-copy">
           <p>저희 두 사람의 작은 만남이</p>
           <p>진실한 사랑으로 꽃피어</p>
           <p>오늘 이 자리를 빛내는 결혼식으로 이어졌습니다.</p>
-          <p class="spacer"></p>
+          <p class="blank"></p>
           <p>평생 서로를 귀히 여기며</p>
           <p>처음의 설렘과 순수함을 잃지 않고</p>
           <p>존중하고 아껴 나가겠습니다.</p>
-          <p class="spacer"></p>
+          <p class="blank"></p>
           <p>믿음과 사랑을 기초로 한 이 날에</p>
           <p>여러분의 따뜻한 축복이 함께 한다면</p>
           <p>더할 나위 없는 기쁨으로 간직하겠습니다.</p>
         </div>
-        <p class="signature">신랑 송명진 · 신부 한근희</p>
+
+        <div class="couple-summary">
+          <span class="role">신랑</span>
+          <span class="name">송명진</span>
+          <span class="dot">·</span>
+          <span class="role">신부</span>
+          <span class="name">한근희</span>
+        </div>
       </section>
 
-      <section class="gallery-section card-section">
-        <p class="eyebrow">Gallery</p>
-        <h2>함께할 순간들</h2>
+      <section class="section-block day-section">
+        <div class="section-heading">
+          <p class="section-en">Wedding Day</p>
+          <p class="section-ko">2026. 11. 21. 토요일 낮 12시 00분</p>
+        </div>
+
+        <div class="calendar-wrap">
+          <div id="calendar" class="calendar" aria-label="2026년 11월 달력"></div>
+        </div>
+
+        <div class="countdown" id="countdown">
+          <div><span id="days">0</span><label>DAYS</label></div>
+          <div><span id="hours">0</span><label>HOUR</label></div>
+          <div><span id="minutes">0</span><label>MIN</label></div>
+          <div><span id="seconds">0</span><label>SEC</label></div>
+        </div>
+
+        <p class="dday-copy" id="ddayCopy"></p>
+      </section>
+
+      <section class="section-block location-section">
+        <div class="section-heading">
+          <p class="section-en">Location</p>
+          <p class="section-ko">오시는 길</p>
+        </div>
+
+        <p class="location-title">더화이트베일</p>
+        <p class="location-address"><button id="copyAddressBtn" class="copy-inline" type="button" aria-label="주소 복사">⌘</button>서울 서초구 서초중앙로 14</p>
+
+        <div id="map" class="map-box" aria-label="카카오 지도"></div>
+        <p id="mapFallbackNote" class="map-fallback-note" hidden>지도가 바로 표시되지 않으면 아래 버튼으로 열어보세요.</p>
+
+        <div class="map-links two-col">
+          <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">네이버지도</a>
+          <a href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">카카오맵</a>
+        </div>
+      </section>
+
+      <section class="section-block gallery-section">
+        <div class="section-heading">
+          <p class="section-en">Gallery</p>
+          <p class="section-ko">함께할 순간들</p>
+        </div>
+
         <div class="gallery-grid">
           <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 1 열기">
             <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 1" />
@@ -72,71 +128,40 @@
         </div>
       </section>
 
-      <section class="calendar-section card-section">
-        <p class="eyebrow">Wedding Day</p>
-        <h2>2026년 11월 21일 토요일</h2>
-        <div class="calendar-shell">
-          <div class="calendar-header">
-            <span>November</span>
-            <strong>11월</strong>
-          </div>
-          <div id="calendar" class="calendar" aria-label="2026년 11월 달력"></div>
+      <section class="section-block contact-section">
+        <div class="section-heading">
+          <p class="section-en">Contact</p>
+          <p class="section-ko">연락하기</p>
         </div>
-        <div class="countdown" id="countdown">
-          <div><span id="days">0</span><label>DAYS</label></div>
-          <div><span id="hours">0</span><label>HOURS</label></div>
-          <div><span id="minutes">0</span><label>MIN</label></div>
-          <div><span id="seconds">0</span><label>SEC</label></div>
-        </div>
-        <p class="dday-copy" id="ddayCopy"></p>
-      </section>
 
-      <section class="location-section card-section">
-        <p class="eyebrow">Location</p>
-        <h2>오시는 길</h2>
-        <div class="venue-block">
-          <strong>더화이트베일</strong>
-          <p>서울 서초구 서초중앙로 14</p>
-        </div>
-        <div class="location-actions">
-          <button id="copyAddressBtn" class="secondary-button" type="button">주소 복사</button>
-        </div>
-        <div id="map" class="map-box" aria-label="카카오 지도"></div>
-        <p id="mapFallbackNote" class="map-fallback-note" hidden>지도가 바로 표시되지 않으면 아래 카카오맵 버튼으로 열어보세요.</p>
-        <div class="map-links two-col">
-          <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">네이버지도</a>
-          <a href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">카카오맵</a>
-        </div>
-      </section>
-
-      <section class="contact-section card-section">
-        <p class="eyebrow">Contact</p>
-        <h2>연락하기</h2>
-        <div class="info-grid">
+        <div class="info-grid two-up">
           <div class="info-card">
-            <span class="info-label">신랑</span>
+            <span class="info-role">신랑</span>
             <strong>송명진</strong>
             <a href="tel:010-0000-0000">010-0000-0000</a>
           </div>
           <div class="info-card">
-            <span class="info-label">신부</span>
+            <span class="info-role">신부</span>
             <strong>한근희</strong>
             <a href="tel:010-0000-0000">010-0000-0000</a>
           </div>
         </div>
       </section>
 
-      <section class="account-section card-section">
-        <p class="eyebrow">Account</p>
-        <h2>마음 전하실 곳</h2>
-        <div class="info-grid single-column">
+      <section class="section-block account-section">
+        <div class="section-heading">
+          <p class="section-en">Account</p>
+          <p class="section-ko">마음 전하실 곳</p>
+        </div>
+
+        <div class="info-grid one-up">
           <div class="info-card">
-            <span class="info-label">신랑측 계좌</span>
+            <span class="info-role">신랑측 계좌</span>
             <strong>은행명 123-456-789012</strong>
             <p>예금주 송명진</p>
           </div>
           <div class="info-card">
-            <span class="info-label">신부측 계좌</span>
+            <span class="info-role">신부측 계좌</span>
             <strong>은행명 123-456-789012</strong>
             <p>예금주 한근희</p>
           </div>

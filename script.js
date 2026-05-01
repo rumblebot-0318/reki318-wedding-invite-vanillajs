@@ -18,19 +18,24 @@ function renderCalendar(target, date) {
   const totalCells = Math.ceil((leading + totalDays) / 7) * 7;
   const cells = [];
 
-  weekdays.forEach((day) => {
-    cells.push(`<div class="calendar-cell weekday">${day}</div>`);
+  weekdays.forEach((day, index) => {
+    const extraClass = index === 0 ? ' is-sunday' : index === 6 ? ' is-saturday' : '';
+    cells.push(`<div class="calendar-cell weekday${extraClass}">${day}</div>`);
   });
 
   for (let i = 0; i < totalCells; i += 1) {
     let dayNumber;
+    let monthOffset = 0;
     let classes = 'calendar-cell day';
+    const dayOfWeek = i % 7;
 
     if (i < leading) {
       dayNumber = prevLastDay - leading + i + 1;
+      monthOffset = -1;
       classes += ' is-muted';
     } else if (i >= leading + totalDays) {
       dayNumber = i - (leading + totalDays) + 1;
+      monthOffset = 1;
       classes += ' is-muted';
     } else {
       dayNumber = i - leading + 1;
@@ -39,7 +44,10 @@ function renderCalendar(target, date) {
       }
     }
 
-    cells.push(`<div class="${classes}">${dayNumber}</div>`);
+    if (dayOfWeek === 0) classes += ' is-sunday';
+    if (dayOfWeek === 6) classes += ' is-saturday';
+
+    cells.push(`<div class="${classes}" data-month-offset="${monthOffset}">${dayNumber}</div>`);
   }
 
   target.innerHTML = cells.join('');
@@ -59,7 +67,7 @@ function updateCountdown() {
     hoursEl.textContent = '0';
     minutesEl.textContent = '0';
     secondsEl.textContent = '0';
-    ddayCopy.textContent = '송명진 · 한근희의 결혼식 날입니다. 함께 축복해 주세요.';
+    ddayCopy.innerHTML = '송명진 <span class="heart">❤</span> 한근희의 결혼식 날입니다.';
     return;
   }
 
@@ -73,7 +81,7 @@ function updateCountdown() {
   hoursEl.textContent = String(hours);
   minutesEl.textContent = String(minutes);
   secondsEl.textContent = String(seconds);
-  ddayCopy.textContent = `송명진 · 한근희의 결혼식까지 ${days}일 남았습니다.`;
+  ddayCopy.innerHTML = `송명진 <span class="heart">❤</span> 한근희의 결혼식이 <b>${days}일</b> 남았습니다.`;
 }
 
 function bindCopyAddress() {
@@ -82,16 +90,15 @@ function bindCopyAddress() {
   button.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(venue.address);
-      const original = button.textContent;
-      button.textContent = '주소가 복사됐어요';
+      button.textContent = '✓';
       setTimeout(() => {
-        button.textContent = original;
-      }, 1800);
+        button.textContent = '⌘';
+      }, 1500);
     } catch (error) {
-      button.textContent = '복사 실패';
+      button.textContent = '!';
       setTimeout(() => {
-        button.textContent = '주소 복사';
-      }, 1800);
+        button.textContent = '⌘';
+      }, 1500);
     }
   });
 }
@@ -101,8 +108,8 @@ function showStaticMapFallback() {
   const note = document.getElementById('mapFallbackNote');
   map.innerHTML = `
     <a href="https://map.kakao.com/link/search/${encodeURIComponent(venue.address)}" target="_blank" rel="noreferrer" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;position:relative;">
-      <img src="https://map2.daum.net/map/mapservice?FORMAT=PNG&SCALE=2.5&MX=${venue.lng}&MY=${venue.lat}&S=0.011&IW=600&IH=400&LANG=0" alt="${venue.name} 정적 지도" style="width:100%;height:100%;object-fit:cover;" />
-      <div style="position:absolute;left:16px;bottom:16px;background:rgba(255,251,247,0.92);padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.5;box-shadow:0 10px 18px rgba(0,0,0,0.12);">
+      <div style="width:100%;height:100%;background:linear-gradient(180deg,#d7d7d7,#c5c5c5);"></div>
+      <div style="position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,0.92);padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 8px 18px rgba(0,0,0,0.12);">
         <strong style="display:block;">${venue.name}</strong>
         <span>${venue.address}</span>
       </div>
@@ -124,12 +131,6 @@ function initMap() {
       const markerPosition = new kakao.maps.LatLng(venue.lat, venue.lng);
       const marker = new kakao.maps.Marker({ position: markerPosition });
       marker.setMap(map);
-
-      const infoWindow = new kakao.maps.InfoWindow({
-        content: `<div style="padding:10px 12px;font-size:12px;color:#2b3530;">${venue.name}<br />${venue.address}</div>`,
-      });
-
-      infoWindow.open(map, marker);
     } catch (error) {
       showStaticMapFallback();
     }
@@ -162,9 +163,7 @@ function bindGallery() {
 
   closeButton.addEventListener('click', close);
   lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox) {
-      close();
-    }
+    if (event.target === lightbox) close();
   });
 }
 
