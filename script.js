@@ -316,9 +316,39 @@ function buildIssueUrl(title, body, labels) {
   return url.toString();
 }
 
-function bindFileBasedForms() {
+function bindModalForms() {
+  const guestbookModal = document.getElementById('guestbookModal');
+  const attendanceModal = document.getElementById('attendanceModal');
   const guestbookForm = document.getElementById('guestbookForm');
   const attendanceForm = document.getElementById('attendanceForm');
+
+  const openModal = (modal) => {
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+  };
+
+  const closeModal = (modal) => {
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+  };
+
+  document.getElementById('openGuestbookModal').addEventListener('click', () => openModal(guestbookModal));
+  document.getElementById('openAttendanceModal').addEventListener('click', () => openModal(attendanceModal));
+
+  document.querySelectorAll('[data-close-modal]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const modal = document.getElementById(button.dataset.closeModal);
+      closeModal(modal);
+    });
+  });
+
+  [guestbookModal, attendanceModal].forEach((modal) => {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal(modal);
+    });
+  });
 
   guestbookForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -327,6 +357,7 @@ function bindFileBasedForms() {
     const body = `### Name\n${name}\n\n### Message\n${message}`;
     window.open(buildIssueUrl(`[guestbook] ${name}`, body, ['guestbook']), '_blank', 'noopener,noreferrer');
     guestbookForm.reset();
+    closeModal(guestbookModal);
   });
 
   attendanceForm.addEventListener('submit', (event) => {
@@ -339,6 +370,13 @@ function bindFileBasedForms() {
     const body = `### Name\n${name}\n\n### Side\n${side}\n\n### Attendance\n${status}\n\n### Number of companions\n${companions}\n\n### Note\n${note}`;
     window.open(buildIssueUrl(`[rsvp] ${name}`, body, ['rsvp']), '_blank', 'noopener,noreferrer');
     attendanceForm.reset();
+    closeModal(attendanceModal);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (!guestbookModal.hidden) closeModal(guestbookModal);
+    if (!attendanceModal.hidden) closeModal(attendanceModal);
   });
 }
 
@@ -424,7 +462,7 @@ async function init() {
   updateCountdown();
   bindCopyAddress();
   bindGallery();
-  bindFileBasedForms();
+  bindModalForms();
   bindRevealAnimation();
   setInterval(updateCountdown, 1000);
 }

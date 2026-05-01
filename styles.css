@@ -442,6 +442,36 @@ body.lightbox-open {
   gap: 8px;
 }
 
+.action-card-wrap {
+  width: calc(100% - 36px);
+  margin-bottom: 16px;
+}
+
+.action-card {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(143, 111, 96, 0.12), rgba(255, 255, 255, 0.96));
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.action-card-label {
+  display: block;
+  color: var(--accent);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.action-card strong {
+  display: block;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: normal;
+}
+
 .form-card {
   width: calc(100% - 36px);
   display: grid;
@@ -518,6 +548,50 @@ body.lightbox-open {
   background: rgba(0, 0, 0, 0.82);
   padding: 20px;
   z-index: 1000;
+}
+
+.dialog-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.56);
+  z-index: 1100;
+}
+
+.dialog-panel {
+  position: relative;
+  width: min(100%, 420px);
+  max-height: 88vh;
+  overflow: auto;
+  background: #f7f1eb;
+  border-radius: 16px;
+  padding: 18px 0 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-heading {
+  margin-top: 8px;
+}
+
+.modal-form {
+  width: calc(100% - 32px);
 }
 
 .lightbox:not([hidden]) {
