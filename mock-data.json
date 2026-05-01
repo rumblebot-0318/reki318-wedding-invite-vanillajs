@@ -4,13 +4,17 @@
       "name": "김민준",
       "phone": "010-1234-5678",
       "father": "김영호",
-      "mother": "이선영"
+      "fatherPhone": "010-1111-2222",
+      "mother": "이선영",
+      "motherPhone": "010-3333-4444"
     },
     "bride": {
       "name": "박서윤",
       "phone": "010-8765-4321",
       "father": "박성호",
-      "mother": "정미경"
+      "fatherPhone": "010-5555-6666",
+      "mother": "정미경",
+      "motherPhone": "010-7777-8888"
     },
     "connector": "그리고"
   },

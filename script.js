@@ -225,6 +225,29 @@ function renderContacts() {
       <a href="tel:${escapeHtml(bride.phone)}">${escapeHtml(bride.phone)}</a>
     </div>
   `;
+
+  document.getElementById('parentContactGrid').innerHTML = `
+    <div class="info-card">
+      <span class="info-role">신랑 아버지</span>
+      <strong>${escapeHtml(groom.father)}</strong>
+      <a href="tel:${escapeHtml(groom.fatherPhone)}">${escapeHtml(groom.fatherPhone)}</a>
+    </div>
+    <div class="info-card">
+      <span class="info-role">신랑 어머니</span>
+      <strong>${escapeHtml(groom.mother)}</strong>
+      <a href="tel:${escapeHtml(groom.motherPhone)}">${escapeHtml(groom.motherPhone)}</a>
+    </div>
+    <div class="info-card">
+      <span class="info-role">신부 아버지</span>
+      <strong>${escapeHtml(bride.father)}</strong>
+      <a href="tel:${escapeHtml(bride.fatherPhone)}">${escapeHtml(bride.fatherPhone)}</a>
+    </div>
+    <div class="info-card">
+      <span class="info-role">신부 어머니</span>
+      <strong>${escapeHtml(bride.mother)}</strong>
+      <a href="tel:${escapeHtml(bride.motherPhone)}">${escapeHtml(bride.motherPhone)}</a>
+    </div>
+  `;
 }
 
 function renderAccounts() {
