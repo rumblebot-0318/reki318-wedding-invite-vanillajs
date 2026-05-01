@@ -345,6 +345,23 @@ function buildIssueUrl(title, body, labels) {
   return url.toString();
 }
 
+function showSubmissionToast(title, message) {
+  const toast = document.getElementById('submissionToast');
+  const toastTitle = document.getElementById('submissionToastTitle');
+  const toastMessage = document.getElementById('submissionToastMessage');
+
+  toastTitle.textContent = title;
+  toastMessage.textContent = message;
+  toast.hidden = false;
+  toast.setAttribute('aria-hidden', 'false');
+
+  clearTimeout(showSubmissionToast.timer);
+  showSubmissionToast.timer = setTimeout(() => {
+    toast.hidden = true;
+    toast.setAttribute('aria-hidden', 'true');
+  }, 2600);
+}
+
 function bindModalForms() {
   const guestbookModal = document.getElementById('guestbookModal');
   const attendanceModal = document.getElementById('attendanceModal');
@@ -387,6 +404,7 @@ function bindModalForms() {
     window.open(buildIssueUrl(`[guestbook] ${name}`, body, ['guestbook']), '_blank', 'noopener,noreferrer');
     guestbookForm.reset();
     closeModal(guestbookModal);
+    showSubmissionToast('축하 메시지 안내', '새 창에서 GitHub 이슈를 제출하면 방명록에 반영돼요.');
   });
 
   attendanceForm.addEventListener('submit', (event) => {
@@ -400,6 +418,7 @@ function bindModalForms() {
     window.open(buildIssueUrl(`[rsvp] ${name}`, body, ['rsvp']), '_blank', 'noopener,noreferrer');
     attendanceForm.reset();
     closeModal(attendanceModal);
+    showSubmissionToast('참석 의사 안내', '새 창에서 GitHub 이슈를 제출하면 참석 정보에 반영돼요.');
   });
 
   window.addEventListener('keydown', (event) => {

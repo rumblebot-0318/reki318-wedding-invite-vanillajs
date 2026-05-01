@@ -458,6 +458,12 @@ body.lightbox-open {
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
 }
 
+.action-card.refined {
+  padding: 22px 20px;
+  border: 1px solid rgba(143, 111, 96, 0.18);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(242, 232, 223, 0.92));
+}
+
 .action-card-label {
   display: block;
   color: var(--accent);
@@ -468,8 +474,14 @@ body.lightbox-open {
 .action-card strong {
   display: block;
   color: var(--text);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: normal;
+}
+
+.action-card p {
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.65;
 }
 
 .form-card {
@@ -481,6 +493,19 @@ body.lightbox-open {
   border-radius: 8px;
 }
 
+.refined-form {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(143, 111, 96, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.modal-guide {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .form-input {
   width: 100%;
   border: 1px solid #d5cec7;
@@ -489,6 +514,13 @@ body.lightbox-open {
   padding: 12px 14px;
   border-radius: 8px;
   font: inherit;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.form-input:focus {
+  border-color: rgba(143, 111, 96, 0.6);
+  box-shadow: 0 0 0 4px rgba(143, 111, 96, 0.08);
 }
 
 .form-textarea {
@@ -498,12 +530,13 @@ body.lightbox-open {
 
 .form-button {
   border: none;
-  background: var(--accent);
+  background: linear-gradient(135deg, #8f6f60, #7a5f53);
   color: #ffffff;
-  padding: 12px 14px;
-  border-radius: 8px;
+  padding: 13px 14px;
+  border-radius: 10px;
   font: inherit;
   cursor: pointer;
+  box-shadow: 0 10px 22px rgba(122, 95, 83, 0.22);
 }
 
 .info-grid.two-up {
@@ -587,10 +620,10 @@ body.lightbox-open {
   width: min(100%, 420px);
   max-height: 88vh;
   overflow: auto;
-  background: #f7f1eb;
-  border-radius: 16px;
+  background: linear-gradient(180deg, #fbf7f3, #f4ede6);
+  border-radius: 18px;
   padding: 18px 0 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
 .dialog-close {
@@ -613,6 +646,34 @@ body.lightbox-open {
 
 .modal-form {
   width: calc(100% - 32px);
+}
+
+.submission-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  width: min(calc(100% - 32px), 420px);
+  z-index: 1200;
+}
+
+.submission-toast-inner {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(43, 36, 32, 0.92);
+  color: #ffffff;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+}
+
+.submission-toast-inner strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: normal;
+}
+
+.submission-toast-inner p {
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.55;
 }
 
 .lightbox:not([hidden]) {
