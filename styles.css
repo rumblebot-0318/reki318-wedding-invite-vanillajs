@@ -442,6 +442,18 @@ body.lightbox-open {
   gap: 8px;
 }
 
+.contact-group {
+  width: 100%;
+}
+
+.contact-group + .contact-group {
+  margin-top: 14px;
+}
+
+.parent-group {
+  padding-top: 2px;
+}
+
 .action-card-wrap {
   width: calc(100% - 36px);
   margin-bottom: 16px;
@@ -543,6 +555,7 @@ body.lightbox-open {
 
 .info-grid.two-up {
   grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .info-grid.one-up {
@@ -554,6 +567,14 @@ body.lightbox-open {
   padding: 16px 14px;
   text-align: center;
   border-radius: 8px;
+}
+
+#contactGrid .info-card,
+#parentContactGrid .info-card {
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .info-card.is-copyable {
