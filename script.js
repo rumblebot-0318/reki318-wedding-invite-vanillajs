@@ -147,16 +147,24 @@ function bindGallery() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
   const closeButton = document.getElementById('lightboxClose');
-  const items = document.querySelectorAll('.gallery-item');
+  const items = document.querySelectorAll('.gallery-item button, .gallery-item[type="button"], button.gallery-item');
 
   const close = () => {
     lightbox.hidden = true;
     lightboxImage.src = '';
+    lightboxImage.alt = '';
   };
 
   items.forEach((item) => {
     item.addEventListener('click', () => {
-      lightboxImage.src = item.dataset.image;
+      const image = item.querySelector('img') || item;
+      const src = item.dataset.image || image.getAttribute('src');
+      const alt = image.getAttribute('alt') || '웨딩 갤러리 이미지';
+
+      if (!src) return;
+
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
       lightbox.hidden = false;
     });
   });
@@ -164,6 +172,10 @@ function bindGallery() {
   closeButton.addEventListener('click', close);
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) close();
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !lightbox.hidden) close();
   });
 }
 
