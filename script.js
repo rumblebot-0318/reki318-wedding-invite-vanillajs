@@ -253,15 +253,44 @@ function renderContacts() {
 function renderAccounts() {
   document.getElementById('accountGrid').innerHTML = inviteData.accounts
     .map(
-      (account) => `
-        <div class="info-card">
+      (account, index) => `
+        <div class="info-card is-copyable" data-copy-value="${escapeHtml(account.copyValue || `${account.bank} ${account.holder}`)}" data-account-index="${index}">
           <span class="info-role">${escapeHtml(account.label)}</span>
           <strong>${escapeHtml(account.bank)}</strong>
           <p>${escapeHtml(account.holder)}</p>
+          <span class="info-card-hint">눌러서 계좌 복사</span>
         </div>
       `,
     )
     .join('');
+}
+
+function bindAccountCopy() {
+  document.querySelectorAll('#accountGrid .info-card.is-copyable').forEach((card) => {
+    card.addEventListener('click', async () => {
+      const value = card.dataset.copyValue;
+      if (!value) return;
+
+      try {
+        await navigator.clipboard.writeText(value);
+        const hint = card.querySelector('.info-card-hint');
+        const original = hint ? hint.textContent : '';
+        card.classList.add('copy-success');
+        if (hint) hint.textContent = '복사 완료';
+        setTimeout(() => {
+          card.classList.remove('copy-success');
+          if (hint) hint.textContent = original || '눌러서 계좌 복사';
+        }, 1600);
+      } catch (error) {
+        const hint = card.querySelector('.info-card-hint');
+        const original = hint ? hint.textContent : '';
+        if (hint) hint.textContent = '복사 실패';
+        setTimeout(() => {
+          if (hint) hint.textContent = original || '눌러서 계좌 복사';
+        }, 1600);
+      }
+    });
+  });
 }
 
 function renderGuestbook() {
@@ -462,6 +491,7 @@ async function init() {
   updateCountdown();
   bindCopyAddress();
   bindGallery();
+  bindAccountCopy();
   bindModalForms();
   bindRevealAnimation();
   setInterval(updateCountdown, 1000);
