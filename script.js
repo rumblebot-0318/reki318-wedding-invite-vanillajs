@@ -130,40 +130,9 @@ function bindCopyAddress() {
   });
 }
 
-function showStaticMapFallback() {
-  const map = document.getElementById('map');
-  const note = document.getElementById('mapFallbackNote');
-  map.innerHTML = `
-    <a href="https://map.kakao.com/link/search/${encodeURIComponent(venue.address)}" target="_blank" rel="noreferrer" style="display:block;width:100%;height:260px;text-decoration:none;color:inherit;position:relative;">
-      <div style="width:100%;height:100%;background:linear-gradient(180deg,#d7d7d7,#c5c5c5);"></div>
-      <div style="position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,0.92);padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 8px 18px rgba(0,0,0,0.12);">
-        <strong style="display:block;">${venue.name}</strong>
-        <span>${venue.address}</span>
-      </div>
-    </a>
-  `;
-  note.hidden = false;
-}
-
 function initMap() {
   const note = document.getElementById('mapFallbackNote');
-
-  try {
-    if (window.daum && window.daum.roughmap && window.daum.roughmap.Lander) {
-      new daum.roughmap.Lander({
-        timestamp: '1777645918954',
-        key: 'n2of23cziuv',
-        mapWidth: '640',
-        mapHeight: '360',
-      }).render();
-      note.hidden = true;
-      return;
-    }
-  } catch (error) {
-    // fall through
-  }
-
-  showStaticMapFallback();
+  note.hidden = true;
 }
 
 function renderGallery() {

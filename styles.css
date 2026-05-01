@@ -150,6 +150,27 @@ body.lightbox-open {
   height: 18px;
 }
 
+.family-lines {
+  margin-bottom: 18px;
+  padding: 0 20px;
+  text-align: center;
+  line-height: 1.9;
+  color: #666666;
+}
+
+.family-lines p {
+  margin: 0;
+}
+
+.parent-label {
+  color: var(--accent);
+}
+
+.family-parent,
+.family-muted {
+  color: #888888;
+}
+
 .couple-summary {
   display: flex;
   align-items: baseline;
@@ -285,9 +306,57 @@ body.lightbox-open {
   background: #d2d2d2;
 }
 
-.map-box .root_daum_roughmap,
-.map-box .root_daum_roughmap .wrap_map {
-  width: 100% !important;
+.map-image-box {
+  background: transparent;
+}
+
+.kakao-map-card {
+  width: 100%;
+  background: #f9f9f9;
+  color: #333333;
+}
+
+.kakao-map-image-wrap {
+  height: 360px;
+}
+
+.kakao-map-image-wrap a,
+.kakao-map-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.kakao-map-image {
+  object-fit: cover;
+  border: 1px solid #cccccc;
+}
+
+.kakao-map-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 7px 11px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: none;
+  background-color: rgb(249, 249, 249);
+}
+
+.kakao-map-logo-link,
+.kakao-map-route-link {
+  text-decoration: none;
+}
+
+.kakao-map-logo {
+  display: block;
+  width: 72px;
+  height: 16px;
+}
+
+.kakao-map-route-link {
+  font-size: 11px;
+  color: #000000;
 }
 
 .map-fallback-note {
