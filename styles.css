@@ -137,6 +137,42 @@ h2 {
   font-weight: 600;
 }
 
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.gallery-item {
+  border: none;
+  padding: 0;
+  background: #e7ddd2;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 150px;
+  box-shadow: inset 0 0 0 1px rgba(93, 122, 111, 0.08);
+}
+
+.gallery-item img,
+.gallery-item span {
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-item img {
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.gallery-item.placeholder span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: linear-gradient(135deg, #ece3da, #d7c8ba);
+}
+
 .calendar-shell {
   background: linear-gradient(180deg, rgba(93, 122, 111, 0.08), rgba(255, 255, 255, 0.8));
   border: 1px solid rgba(93, 122, 111, 0.12);
@@ -275,11 +311,21 @@ h2 {
   background: linear-gradient(180deg, #dde6df, #c4d2ca);
 }
 
+.map-fallback-note {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .map-links {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin-top: 14px;
+}
+
+.map-links.two-col {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .map-links a {
@@ -290,6 +336,74 @@ h2 {
   border-radius: 14px;
   padding: 12px 8px;
   border: 1px solid rgba(93, 122, 111, 0.08);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.info-grid.single-column {
+  grid-template-columns: 1fr;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  padding: 18px 16px;
+  box-shadow: inset 0 0 0 1px rgba(93, 122, 111, 0.08);
+  text-align: center;
+}
+
+.info-card strong {
+  display: block;
+  margin: 6px 0 8px;
+}
+
+.info-card a,
+.info-card p {
+  color: var(--muted);
+  text-decoration: none;
+  word-break: keep-all;
+}
+
+.info-label {
+  display: inline-block;
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 18, 17, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.lightbox img {
+  max-width: min(92vw, 560px);
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  font-size: 1.8rem;
+  cursor: pointer;
 }
 
 @media (max-width: 380px) {

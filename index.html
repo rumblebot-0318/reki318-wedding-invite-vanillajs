@@ -53,6 +53,25 @@
         <p class="signature">신랑 송명진 · 신부 한근희</p>
       </section>
 
+      <section class="gallery-section card-section">
+        <p class="eyebrow">Gallery</p>
+        <h2>함께할 순간들</h2>
+        <div class="gallery-grid">
+          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 1 열기">
+            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 1" />
+          </button>
+          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 2 열기">
+            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 2" />
+          </button>
+          <button class="gallery-item" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 3 열기">
+            <img src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" alt="웨딩 갤러리 이미지 3" />
+          </button>
+          <button class="gallery-item placeholder" type="button" data-image="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" aria-label="갤러리 이미지 4 열기">
+            <span>Photo 4</span>
+          </button>
+        </div>
+      </section>
+
       <section class="calendar-section card-section">
         <p class="eyebrow">Wedding Day</p>
         <h2>2026년 11월 21일 토요일</h2>
@@ -83,12 +102,51 @@
           <button id="copyAddressBtn" class="secondary-button" type="button">주소 복사</button>
         </div>
         <div id="map" class="map-box" aria-label="카카오 지도"></div>
-        <div class="map-links">
+        <p id="mapFallbackNote" class="map-fallback-note" hidden>지도가 바로 표시되지 않으면 아래 카카오맵 버튼으로 열어보세요.</p>
+        <div class="map-links two-col">
           <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">네이버지도</a>
           <a href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">카카오맵</a>
-          <a href="https://apis.openapi.sk.com/tmap/app/routes?appKey=&name=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">티맵</a>
+        </div>
+      </section>
+
+      <section class="contact-section card-section">
+        <p class="eyebrow">Contact</p>
+        <h2>연락하기</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <span class="info-label">신랑</span>
+            <strong>송명진</strong>
+            <a href="tel:010-0000-0000">010-0000-0000</a>
+          </div>
+          <div class="info-card">
+            <span class="info-label">신부</span>
+            <strong>한근희</strong>
+            <a href="tel:010-0000-0000">010-0000-0000</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="account-section card-section">
+        <p class="eyebrow">Account</p>
+        <h2>마음 전하실 곳</h2>
+        <div class="info-grid single-column">
+          <div class="info-card">
+            <span class="info-label">신랑측 계좌</span>
+            <strong>은행명 123-456-789012</strong>
+            <p>예금주 송명진</p>
+          </div>
+          <div class="info-card">
+            <span class="info-label">신부측 계좌</span>
+            <strong>은행명 123-456-789012</strong>
+            <p>예금주 한근희</p>
+          </div>
         </div>
       </section>
     </main>
+
+    <div id="lightbox" class="lightbox" hidden>
+      <button id="lightboxClose" class="lightbox-close" type="button" aria-label="갤러리 닫기">×</button>
+      <img id="lightboxImage" src="" alt="확대된 갤러리 이미지" />
+    </div>
   </body>
 </html>

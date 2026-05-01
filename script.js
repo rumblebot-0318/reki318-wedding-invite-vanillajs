@@ -16,7 +16,6 @@ function renderCalendar(target, date) {
   const totalDays = lastDay.getDate();
   const prevLastDay = new Date(year, month, 0).getDate();
   const totalCells = Math.ceil((leading + totalDays) / 7) * 7;
-
   const cells = [];
 
   weekdays.forEach((day) => {
@@ -97,29 +96,76 @@ function bindCopyAddress() {
   });
 }
 
+function showStaticMapFallback() {
+  const map = document.getElementById('map');
+  const note = document.getElementById('mapFallbackNote');
+  map.innerHTML = `
+    <a href="https://map.kakao.com/link/search/${encodeURIComponent(venue.address)}" target="_blank" rel="noreferrer" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;position:relative;">
+      <img src="https://map2.daum.net/map/mapservice?FORMAT=PNG&SCALE=2.5&MX=${venue.lng}&MY=${venue.lat}&S=0.011&IW=600&IH=400&LANG=0" alt="${venue.name} 정적 지도" style="width:100%;height:100%;object-fit:cover;" />
+      <div style="position:absolute;left:16px;bottom:16px;background:rgba(255,251,247,0.92);padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.5;box-shadow:0 10px 18px rgba(0,0,0,0.12);">
+        <strong style="display:block;">${venue.name}</strong>
+        <span>${venue.address}</span>
+      </div>
+    </a>
+  `;
+  note.hidden = false;
+}
+
 function initMap() {
   const start = () => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(venue.lat, venue.lng),
-      level: 3,
-    };
+    try {
+      const container = document.getElementById('map');
+      const options = {
+        center: new kakao.maps.LatLng(venue.lat, venue.lng),
+        level: 3,
+      };
 
-    const map = new kakao.maps.Map(container, options);
-    const markerPosition = new kakao.maps.LatLng(venue.lat, venue.lng);
-    const marker = new kakao.maps.Marker({ position: markerPosition });
-    marker.setMap(map);
+      const map = new kakao.maps.Map(container, options);
+      const markerPosition = new kakao.maps.LatLng(venue.lat, venue.lng);
+      const marker = new kakao.maps.Marker({ position: markerPosition });
+      marker.setMap(map);
 
-    const infoWindow = new kakao.maps.InfoWindow({
-      content: `<div style="padding:10px 12px;font-size:12px;color:#2b3530;">${venue.name}<br />${venue.address}</div>`,
-    });
+      const infoWindow = new kakao.maps.InfoWindow({
+        content: `<div style="padding:10px 12px;font-size:12px;color:#2b3530;">${venue.name}<br />${venue.address}</div>`,
+      });
 
-    infoWindow.open(map, marker);
+      infoWindow.open(map, marker);
+    } catch (error) {
+      showStaticMapFallback();
+    }
   };
 
   if (window.kakao && window.kakao.maps) {
     window.kakao.maps.load(start);
+  } else {
+    showStaticMapFallback();
   }
+}
+
+function bindGallery() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const closeButton = document.getElementById('lightboxClose');
+  const items = document.querySelectorAll('.gallery-item');
+
+  const close = () => {
+    lightbox.hidden = true;
+    lightboxImage.src = '';
+  };
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      lightboxImage.src = item.dataset.image;
+      lightbox.hidden = false;
+    });
+  });
+
+  closeButton.addEventListener('click', close);
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) {
+      close();
+    }
+  });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -127,5 +173,6 @@ window.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   bindCopyAddress();
   initMap();
+  bindGallery();
   setInterval(updateCountdown, 1000);
 });
