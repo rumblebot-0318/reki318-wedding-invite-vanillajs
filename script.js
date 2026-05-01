@@ -147,31 +147,42 @@ function bindGallery() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
   const closeButton = document.getElementById('lightboxClose');
-  const items = document.querySelectorAll('.gallery-item button, .gallery-item[type="button"], button.gallery-item');
+  const items = document.querySelectorAll('button.gallery-item');
+
+  const open = (src, alt) => {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt || '웨딩 갤러리 이미지';
+    lightbox.hidden = false;
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+  };
 
   const close = () => {
     lightbox.hidden = true;
+    lightbox.setAttribute('aria-hidden', 'true');
     lightboxImage.src = '';
     lightboxImage.alt = '';
+    document.body.classList.remove('lightbox-open');
   };
 
   items.forEach((item) => {
     item.addEventListener('click', () => {
-      const image = item.querySelector('img') || item;
-      const src = item.dataset.image || image.getAttribute('src');
-      const alt = image.getAttribute('alt') || '웨딩 갤러리 이미지';
+      const image = item.querySelector('img');
+      const src = item.dataset.image || image?.getAttribute('src');
+      const alt = image?.getAttribute('alt') || '웨딩 갤러리 이미지';
 
       if (!src) return;
-
-      lightboxImage.src = src;
-      lightboxImage.alt = alt;
-      lightbox.hidden = false;
+      open(src, alt);
     });
   });
 
   closeButton.addEventListener('click', close);
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) close();
+  });
+
+  lightboxImage.addEventListener('click', (event) => {
+    event.stopPropagation();
   });
 
   window.addEventListener('keydown', (event) => {

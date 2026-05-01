@@ -36,6 +36,14 @@ a {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
 .invite-shell {
   width: 100%;
   max-width: 430px;
@@ -391,6 +399,10 @@ a {
   background: rgba(0, 0, 0, 0.82);
   padding: 20px;
   z-index: 1000;
+}
+
+.lightbox:not([hidden]) {
+  display: flex;
 }
 
 .lightbox img {
