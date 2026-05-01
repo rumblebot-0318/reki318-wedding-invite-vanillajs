@@ -1,37 +1,63 @@
-const weddingDate = new Date('2026-11-21T12:00:00+09:00');
-const venue = {
-  name: '더화이트베일',
-  address: '서울 서초구 서초중앙로 14',
-  lat: 37.491742,
-  lng: 127.007709,
-};
+let inviteData = null;
+let weddingDate = null;
 
-const galleryImages = [
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 1',
-  },
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 2',
-  },
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 3',
-  },
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 4',
-  },
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 5',
-  },
-  {
-    src: 'https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc',
-    alt: '웨딩 갤러리 이미지 6',
-  },
-];
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+async function loadData() {
+  const response = await fetch('mock-data.json');
+  inviteData = await response.json();
+  weddingDate = new Date(inviteData.wedding.date);
+}
+
+function renderMeta() {
+  document.title = inviteData.wedding.title;
+  document.querySelector('meta[name="description"]').setAttribute('content', `${inviteData.wedding.dateText}, ${inviteData.wedding.venue}에서 열리는 초대장입니다.`);
+  document.querySelector('meta[property="og:title"]').setAttribute('content', inviteData.wedding.title);
+  document.querySelector('meta[property="og:description"]').setAttribute('content', `${inviteData.wedding.dateText} · ${inviteData.wedding.venue}`);
+}
+
+function renderHero() {
+  const { couple, hero, wedding } = inviteData;
+  document.getElementById('titleOverlay').innerHTML = `
+    <span>${escapeHtml(couple.groom.name)}</span>
+    <span class="title-and">${escapeHtml(couple.connector)}</span>
+    <span>${escapeHtml(couple.bride.name)}</span>
+  `;
+  const heroPhoto = document.getElementById('heroPhoto');
+  heroPhoto.src = hero.image;
+  heroPhoto.alt = hero.alt;
+  document.getElementById('heroDateText').textContent = wedding.dateText;
+  document.getElementById('heroVenue').textContent = wedding.venue;
+}
+
+function renderInvitation() {
+  const { invitation, couple } = inviteData;
+  document.getElementById('invitationTitleEn').textContent = invitation.titleEn;
+  document.getElementById('invitationTitleKo').textContent = invitation.titleKo;
+  document.getElementById('messageCopy').innerHTML = invitation.lines
+    .map((line) => (line ? `<p>${escapeHtml(line)}</p>` : '<p class="blank"></p>'))
+    .join('');
+
+  document.getElementById('familyLines').innerHTML = `
+    <p><span class="parent-label">신랑</span> ${escapeHtml(couple.groom.name)} <span class="family-muted">·</span> <span class="family-parent">${escapeHtml(couple.groom.father)}</span> · <span class="family-parent">${escapeHtml(couple.groom.mother)}</span>의 아들</p>
+    <p><span class="parent-label">신부</span> ${escapeHtml(couple.bride.name)} <span class="family-muted">·</span> <span class="family-parent">${escapeHtml(couple.bride.father)}</span> · <span class="family-parent">${escapeHtml(couple.bride.mother)}</span>의 딸</p>
+  `;
+
+  document.getElementById('coupleSummary').innerHTML = `
+    <span class="role">신랑</span>
+    <span class="name">${escapeHtml(couple.groom.name)}</span>
+    <span class="dot">·</span>
+    <span class="role">신부</span>
+    <span class="name">${escapeHtml(couple.bride.name)}</span>
+  `;
+}
 
 function renderCalendar(target, date) {
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
@@ -88,13 +114,14 @@ function updateCountdown() {
   const minutesEl = document.getElementById('minutes');
   const secondsEl = document.getElementById('seconds');
   const ddayCopy = document.getElementById('ddayCopy');
+  const { groom, bride } = inviteData.couple;
 
   if (diff <= 0) {
     daysEl.textContent = '0';
     hoursEl.textContent = '0';
     minutesEl.textContent = '0';
     secondsEl.textContent = '0';
-    ddayCopy.innerHTML = '송명진 <span class="heart">❤</span> 한근희의 결혼식 날입니다.';
+    ddayCopy.innerHTML = `${escapeHtml(groom.name)} <span class="heart">❤</span> ${escapeHtml(bride.name)}의 결혼식 날입니다.`;
     return;
   }
 
@@ -108,15 +135,40 @@ function updateCountdown() {
   hoursEl.textContent = String(hours);
   minutesEl.textContent = String(minutes);
   secondsEl.textContent = String(seconds);
-  ddayCopy.innerHTML = `송명진 <span class="heart">❤</span> 한근희의 결혼식이 <b>${days}일</b> 남았습니다.`;
+  ddayCopy.innerHTML = `${escapeHtml(groom.name)} <span class="heart">❤</span> ${escapeHtml(bride.name)}의 결혼식이 <b>${days}일</b> 남았습니다.`;
+}
+
+function renderLocation() {
+  const { wedding, map } = inviteData;
+  document.getElementById('locationTitle').textContent = wedding.venue;
+  document.getElementById('locationAddress').textContent = wedding.address;
+  document.getElementById('daySectionTitle').textContent = wedding.dateText;
+  document.getElementById('map').innerHTML = `
+    <div class="kakao-map-card">
+      <div class="kakao-map-image-wrap">
+        <a href="${map.mapLink}" target="_blank" rel="noreferrer">
+          <img class="kakao-map-image" src="${map.image}" alt="${escapeHtml(wedding.address)} 카카오 지도" />
+        </a>
+      </div>
+      <div class="kakao-map-footer">
+        <a href="${map.kakaoHome}" target="_blank" rel="noreferrer" class="kakao-map-logo-link">
+          <img src="https://t1.kakaocdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵" class="kakao-map-logo" />
+        </a>
+        <a target="_blank" rel="noreferrer" href="${map.routeLink}" class="kakao-map-route-link">길찾기</a>
+      </div>
+    </div>
+  `;
+  document.getElementById('kakaoMapLink').href = map.mapLink;
+  document.getElementById('naverMapLink').href = `https://map.naver.com/p/search/${encodeURIComponent(wedding.address)}`;
 }
 
 function bindCopyAddress() {
   const button = document.getElementById('copyAddressBtn');
+  const address = inviteData.wedding.address;
 
   button.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(venue.address);
+      await navigator.clipboard.writeText(address);
       button.textContent = '✓';
       setTimeout(() => {
         button.textContent = '⌘';
@@ -130,20 +182,45 @@ function bindCopyAddress() {
   });
 }
 
-function initMap() {
-  const note = document.getElementById('mapFallbackNote');
-  note.hidden = true;
-}
-
 function renderGallery() {
   const galleryGrid = document.getElementById('galleryGrid');
 
-  galleryGrid.innerHTML = galleryImages
+  galleryGrid.innerHTML = inviteData.gallery
     .map(
       (image, index) => `
         <button class="gallery-item" type="button" data-image="${image.src}" aria-label="갤러리 이미지 ${index + 1} 열기">
-          <img src="${image.src}" alt="${image.alt}" />
+          <img src="${image.src}" alt="${escapeHtml(image.alt)}" />
         </button>
+      `,
+    )
+    .join('');
+}
+
+function renderContacts() {
+  const { groom, bride } = inviteData.couple;
+  document.getElementById('contactGrid').innerHTML = `
+    <div class="info-card">
+      <span class="info-role">신랑</span>
+      <strong>${escapeHtml(groom.name)}</strong>
+      <a href="tel:${escapeHtml(groom.phone)}">${escapeHtml(groom.phone)}</a>
+    </div>
+    <div class="info-card">
+      <span class="info-role">신부</span>
+      <strong>${escapeHtml(bride.name)}</strong>
+      <a href="tel:${escapeHtml(bride.phone)}">${escapeHtml(bride.phone)}</a>
+    </div>
+  `;
+}
+
+function renderAccounts() {
+  document.getElementById('accountGrid').innerHTML = inviteData.accounts
+    .map(
+      (account) => `
+        <div class="info-card">
+          <span class="info-role">${escapeHtml(account.label)}</span>
+          <strong>${escapeHtml(account.bank)}</strong>
+          <p>${escapeHtml(account.holder)}</p>
+        </div>
       `,
     )
     .join('');
@@ -176,7 +253,6 @@ function bindGallery() {
       const image = item.querySelector('img');
       const src = item.dataset.image || image?.getAttribute('src');
       const alt = image?.getAttribute('alt') || '웨딩 갤러리 이미지';
-
       if (!src) return;
       open(src, alt);
     });
@@ -186,11 +262,9 @@ function bindGallery() {
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) close();
   });
-
   lightboxImage.addEventListener('click', (event) => {
     event.stopPropagation();
   });
-
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !lightbox.hidden) close();
   });
@@ -219,13 +293,25 @@ function bindRevealAnimation() {
   revealItems.forEach((item) => observer.observe(item));
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+async function init() {
+  await loadData();
+  renderMeta();
+  renderHero();
+  renderInvitation();
+  renderLocation();
   renderCalendar(document.getElementById('calendar'), weddingDate);
   renderGallery();
+  renderContacts();
+  renderAccounts();
   updateCountdown();
   bindCopyAddress();
-  initMap();
   bindGallery();
   bindRevealAnimation();
   setInterval(updateCountdown, 1000);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  init().catch((error) => {
+    console.error('Failed to initialize invitation page:', error);
+  });
 });

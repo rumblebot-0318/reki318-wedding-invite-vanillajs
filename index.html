@@ -3,84 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>명진 ❤️ 근희 결혼합니다.</title>
-    <meta name="description" content="2026년 11월 21일 토요일, 더화이트베일에서 열리는 송명진 · 한근희의 결혼식에 초대합니다." />
-    <meta property="og:title" content="명진 ❤️ 근희 결혼합니다." />
-    <meta property="og:description" content="2026년 11월 21일 토요일 낮 12시 00분 · 더화이트베일" />
+    <title>모바일 청첩장</title>
+    <meta name="description" content="바닐라 JS 기반 모바일 청첩장" />
+    <meta property="og:title" content="모바일 청첩장" />
+    <meta property="og:description" content="소중한 분들을 초대합니다." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Dodum&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
-    <script defer charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
     <script defer src="script.js"></script>
   </head>
   <body>
     <main class="invite-shell">
       <section class="hero-section section-block reveal">
-        <div class="title-overlay">
-          <span>송명진</span>
-          <span class="title-and">그리고</span>
-          <span>한근희</span>
-        </div>
+        <div class="title-overlay" id="titleOverlay"></div>
 
         <div class="hero-photo-wrap">
-          <img
-            src="https://cdn2.vividvows.co.kr/invitations/aAK6VTTqxHWi04L07pyK/main/first.jpg?token=5814e45c-3ece-43ab-8c5f-2ee0c23f47cc"
-            alt="송명진과 한근희의 웨딩 사진"
-            class="hero-photo"
-          />
+          <img id="heroPhoto" src="" alt="웨딩 메인 사진" class="hero-photo" />
         </div>
 
         <div class="divider-line"></div>
-        <p class="hero-meta">2026. 11. 21. 토요일 낮 12시 00분</p>
-        <p class="hero-meta venue-name">더화이트베일</p>
+        <p class="hero-meta" id="heroDateText"></p>
+        <p class="hero-meta venue-name" id="heroVenue"></p>
         <div class="divider-line bottom"></div>
       </section>
 
       <section class="section-block intro-section reveal">
         <div class="section-heading">
-          <p class="section-en">Invitation</p>
-          <p class="section-ko">소중한 분들을 초대합니다</p>
+          <p class="section-en" id="invitationTitleEn"></p>
+          <p class="section-ko" id="invitationTitleKo"></p>
         </div>
 
-        <div class="message-copy">
-          <p>저희 두 사람의 작은 만남이</p>
-          <p>진실한 사랑으로 꽃피어</p>
-          <p>오늘 이 자리를 빛내는 결혼식으로 이어졌습니다.</p>
-          <p class="blank"></p>
-          <p>평생 서로를 귀히 여기며</p>
-          <p>처음의 설렘과 순수함을 잃지 않고</p>
-          <p>존중하고 아껴 나가겠습니다.</p>
-          <p class="blank"></p>
-          <p>믿음과 사랑을 기초로 한 이 날에</p>
-          <p>여러분의 따뜻한 축복이 함께 한다면</p>
-          <p>더할 나위 없는 기쁨으로 간직하겠습니다.</p>
-        </div>
+        <div class="message-copy" id="messageCopy"></div>
+        <div class="family-lines" id="familyLines"></div>
 
-        <div class="family-lines">
-          <p><span class="parent-label">신랑</span> 송명진 <span class="family-muted">·</span> <span class="family-parent">아버지 성함</span> · <span class="family-parent">어머니 성함</span>의 아들</p>
-          <p><span class="parent-label">신부</span> 한근희 <span class="family-muted">·</span> <span class="family-parent">아버지 성함</span> · <span class="family-parent">어머니 성함</span>의 딸</p>
-        </div>
-
-        <div class="couple-summary">
-          <span class="role">신랑</span>
-          <span class="name">송명진</span>
-          <span class="dot">·</span>
-          <span class="role">신부</span>
-          <span class="name">한근희</span>
-        </div>
+        <div class="couple-summary" id="coupleSummary"></div>
       </section>
 
       <section class="section-block day-section reveal">
         <div class="section-heading">
           <p class="section-en">Wedding Day</p>
-          <p class="section-ko">2026. 11. 21. 토요일 낮 12시 00분</p>
+          <p class="section-ko" id="daySectionTitle"></p>
         </div>
 
         <div class="calendar-wrap">
-          <div id="calendar" class="calendar" aria-label="2026년 11월 달력"></div>
+          <div id="calendar" class="calendar" aria-label="결혼식 달력"></div>
         </div>
 
         <div class="countdown" id="countdown">
@@ -99,29 +67,15 @@
           <p class="section-ko">오시는 길</p>
         </div>
 
-        <p class="location-title">더화이트베일</p>
-        <p class="location-address"><button id="copyAddressBtn" class="copy-inline" type="button" aria-label="주소 복사">⌘</button>서울 서초구 서초중앙로 14</p>
+        <p class="location-title" id="locationTitle"></p>
+        <p class="location-address"><button id="copyAddressBtn" class="copy-inline" type="button" aria-label="주소 복사">⌘</button><span id="locationAddress"></span></p>
 
-        <div id="map" class="map-box map-image-box" aria-label="카카오 지도 이미지">
-          <div class="kakao-map-card">
-            <div class="kakao-map-image-wrap">
-              <a href="https://map.kakao.com/?urlX=503949.9999999986&amp;urlY=1106709.9999999988&amp;name=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014&amp;map_type=TYPE_MAP&amp;from=roughmap" target="_blank" rel="noreferrer">
-                <img class="kakao-map-image" src="https://t1.daumcdn.net/roughmap/imgmap/d8d4d86a78602db69bdbd30bcc5b129e4a880f2a79590fcc3d58bab012f96a92" alt="서울 서초구 서초중앙로 14 카카오 지도" />
-              </a>
-            </div>
-            <div class="kakao-map-footer">
-              <a href="https://map.kakao.com" target="_blank" rel="noreferrer" class="kakao-map-logo-link">
-                <img src="https://t1.kakaocdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵" class="kakao-map-logo" />
-              </a>
-              <a target="_blank" rel="noreferrer" href="https://map.kakao.com/?from=roughmap&amp;eName=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014&amp;eX=503949.9999999986&amp;eY=1106709.9999999988" class="kakao-map-route-link">길찾기</a>
-            </div>
-          </div>
-        </div>
+        <div id="map" class="map-box map-image-box" aria-label="카카오 지도 이미지"></div>
         <p id="mapFallbackNote" class="map-fallback-note" hidden>지도가 바로 표시되지 않으면 아래 버튼으로 열어보세요.</p>
 
         <div class="map-links two-col">
-          <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">네이버지도</a>
-          <a href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EC%A4%91%EC%95%99%EB%A1%9C%2014" target="_blank" rel="noreferrer">카카오맵</a>
+          <a id="naverMapLink" href="#" target="_blank" rel="noreferrer">네이버지도</a>
+          <a id="kakaoMapLink" href="#" target="_blank" rel="noreferrer">카카오맵</a>
         </div>
       </section>
 
@@ -140,18 +94,7 @@
           <p class="section-ko">연락하기</p>
         </div>
 
-        <div class="info-grid two-up">
-          <div class="info-card">
-            <span class="info-role">신랑</span>
-            <strong>송명진</strong>
-            <a href="tel:010-0000-0000">010-0000-0000</a>
-          </div>
-          <div class="info-card">
-            <span class="info-role">신부</span>
-            <strong>한근희</strong>
-            <a href="tel:010-0000-0000">010-0000-0000</a>
-          </div>
-        </div>
+        <div class="info-grid two-up" id="contactGrid"></div>
       </section>
 
       <section class="section-block account-section reveal">
@@ -160,18 +103,7 @@
           <p class="section-ko">마음 전하실 곳</p>
         </div>
 
-        <div class="info-grid one-up">
-          <div class="info-card">
-            <span class="info-role">신랑측 계좌</span>
-            <strong>은행명 123-456-789012</strong>
-            <p>예금주 송명진</p>
-          </div>
-          <div class="info-card">
-            <span class="info-role">신부측 계좌</span>
-            <strong>은행명 123-456-789012</strong>
-            <p>예금주 한근희</p>
-          </div>
-        </div>
+        <div class="info-grid one-up" id="accountGrid"></div>
       </section>
     </main>
 
